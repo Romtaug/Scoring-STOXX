@@ -1,0 +1,11 @@
+requests
+beautifulsoup4
+yfinance
+pandas
+numpy
+pulp
+scikit-learn
+tqdm
+xlsxwriter
+pyperclip
+openpyxl
