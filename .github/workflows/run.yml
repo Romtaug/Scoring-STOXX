@@ -2,16 +2,14 @@ name: Run Scoring-STOXX daily
 
 on:
   schedule:
-    # ⏰ Tous les jours à 06:30 UTC (07:30/08:30 à Paris selon saison)
-    - cron: "30 6 * * *"
-  workflow_dispatch: {}   # Lancer manuellement depuis l’onglet Actions
+    - cron: "30 6 * * *"   # tous les jours à 06:30 UTC
+  workflow_dispatch: {}
 
 jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 120
 
-    # ⚠️ Les secrets que tu as créés seront injectés ici
     env:
       TZ: Europe/Paris
       GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
@@ -26,6 +24,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"           # optionnel: accélère les installs
 
       - name: Install LP solver (PuLP)
         run: |
@@ -40,8 +39,7 @@ jobs:
       - name: Run script
         run: python Scoring-STOXX.py
 
-      # (Optionnel) Récupérer les fichiers Excel générés depuis l’onglet Actions
-      - name: Upload outputs
+      - name: Upload outputs (optionnel)
         if: always()
         uses: actions/upload-artifact@v4
         with:
