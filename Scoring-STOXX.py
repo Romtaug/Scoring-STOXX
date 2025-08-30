@@ -1,38 +1,14 @@
 # Email par défaut
-receiver_email = "taugourdea@cy-tech.fr"
+import os
+
+password = os.environ["GMAIL_APP_PASSWORD"]
+sender_email = os.environ["SENDER_EMAIL"]
+receiver_email = os.environ.get("RECEIVER_EMAIL", "romtaug@gmail.com")
 
 #######################################################################
 
 import subprocess
 import sys
-
-# Fonction pour installer un package si ce n'est pas déjà installé
-def install_if_missing(package):
-    try:
-        __import__(package)
-    except ImportError:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
-# Liste des bibliothèques à vérifier et à installer si nécessaire
-packages = [
-    "requests",
-    "beautifulsoup4",
-    "yfinance",
-    "pandas",
-    "numpy",
-    "pulp",
-    "scikit-learn",
-    "tqdm",
-    "xlsxwriter",
-    "pyperclip",
-    "IPython",
-    "datetime"
-]
-
-# Installation des bibliothèques manquantes
-for package in packages:
-    install_if_missing(package)
-
 # Import des bibliothèques nécessaires
 import requests
 import xlsxwriter
@@ -676,9 +652,7 @@ import sys
 # Configuration SMTP
 smtp_server = "smtp.gmail.com"
 port = 465
-sender_email = "taugourdea@cy-tech.fr"
-password = "merz kpoh hcwm xjof"  # Mot de passe d'application sécurisé
-receiver_email = receiver_email  # Adresse email du destinataire
+import os
 
 # Fichiers à attacher
 current_date = datetime.now().strftime("%Y-%m-%d")
@@ -794,4 +768,5 @@ for src, dst_dir in files_and_destinations.items():
         shutil.move(src, dst)
         print(f"✅ {file_name} déplacé vers {dst_dir}/")
     else:
+
         print(f"❌ {file_name} introuvable dans {script_dir}")
